@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FrontEnd</string>
+    <string name="bankname">ABC Bank</string>
+
+    <string name="title_activity_first_splash">FirstSplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

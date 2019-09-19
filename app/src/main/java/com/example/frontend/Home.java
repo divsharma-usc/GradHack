@@ -45,10 +45,9 @@ public class Home extends AppCompatActivity {
                 new TimerTask(){
                     @Override
                     public void run(){
-                        t1.speak("You are on home menu, you can use volume buttons to navigate through options",TextToSpeech.QUEUE_FLUSH,null,null);
-                    }}, 1000);
+                        t1.speak("You are on home menu",TextToSpeech.QUEUE_FLUSH,null,null);
+                    }}, 400);
 
-        System.out.println(MainActivity.class.getClass().getName());
 
     }
 

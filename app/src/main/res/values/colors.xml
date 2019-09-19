@@ -6,4 +6,6 @@
     <color name="lightgray">#ededed</color>
     <color name="darkpurble">#7c4def</color>
     <color name="backgroundcolor">#fcfcfc</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>
