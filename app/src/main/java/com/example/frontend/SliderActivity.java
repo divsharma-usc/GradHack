@@ -4,11 +4,13 @@ import com.example.frontend.ViewPageAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,10 +26,11 @@ public class SliderActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private ViewPageAdapter myViewPagerAdapter;
     private int[] layouts;
-    private String[] speaks = {"On the Screen1", "On the Screen 2"};
+    private String[] speaks = {"Screen 1", "Screen 2"};
     private Button btnSkip, btnNext;
     private TextView[] dots;
     private TextToSpeech tts;
+    private boolean volume_up_pressed, volume_down_pressed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +44,7 @@ public class SliderActivity extends AppCompatActivity {
 
         addBottomDots(0);
         changeStatusBarColor();
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
+        removeNavigation();
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
         System.out.println(dotsLayout);
@@ -79,14 +76,7 @@ public class SliderActivity extends AppCompatActivity {
                     btnNext.setText(getString(R.string.next));
                     btnSkip.setVisibility(View.VISIBLE);
                 }
-                System.out.println(position);
-                viewPager.setClickable(false);
-                viewPager.setEnabled(false);
-                btnNext.setClickable(false);
-                tts.speak(speaks[position],TextToSpeech.QUEUE_FLUSH,null,null);
-                viewPager.setClickable(true);
-                viewPager.setEnabled(true);
-                btnNext.setClickable(true);
+                speakOut(position);
             }
 
             @Override
@@ -97,7 +87,7 @@ public class SliderActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //launchHomeScreen();
+                launchHomeScreen();
             }
         });
 
@@ -106,23 +96,16 @@ public class SliderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // checking for last page if true launch MainActivity
                 int current = getItem(+1);
+
                 if (current < layouts.length) {
                     // move to next screen
                     viewPager.setCurrentItem(current);
-                    viewPager.setClickable(false);
-                    viewPager.setEnabled(false);
-                    btnNext.setClickable(false);
-                    tts.speak(speaks[current],TextToSpeech.QUEUE_FLUSH,null,null);
-                    viewPager.setClickable(true);
-                    viewPager.setEnabled(true);
-                    btnNext.setClickable(true);
+                    speakOut(current);
                 } else {
-                    //launchHomeScreen();
+                      launchHomeScreen();
                 }
             }
         });
-
-
     }
 
 
@@ -156,6 +139,75 @@ public class SliderActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+    }
 
+    private void speakOut(int pos){
+        viewPager.setCurrentItem(pos);
+        viewPager.setClickable(false);
+        viewPager.setEnabled(false);
+        btnNext.setClickable(false);
+        tts.speak(speaks[pos],TextToSpeech.QUEUE_FLUSH,null,null);
+        viewPager.setClickable(true);
+        viewPager.setEnabled(true);
+        btnNext.setClickable(true);
+    }
+
+
+    //Using Volumes buttons to navigate and select
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            volume_down_pressed = false;
+            btnSkip.performClick();
+            return true;
+        } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
+            volume_up_pressed = false;
+            if(viewPager.getCurrentItem() < layouts.length - 1 )
+                btnNext.performClick();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Boolean response = false;
+        if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            volume_down_pressed = true;
+            response = true;
+        } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
+            volume_up_pressed = true;
+            response = true;
+        }
+        if (volume_down_pressed && volume_up_pressed) {
+            btnNext.performClick();
+        }
+        return response;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        removeNavigation();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        removeNavigation();
+    }
+
+    private void launchHomeScreen(){
+        Intent myIntent = new Intent(SliderActivity.this,Home.class);
+        SliderActivity.this.startActivity(myIntent);
+    }
+
+    private void removeNavigation(){
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 }

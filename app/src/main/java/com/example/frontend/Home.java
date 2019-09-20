@@ -21,7 +21,7 @@ public class Home extends AppCompatActivity {
 
     private int[] menuItemsArray = {R.id.button1, R.id.button2,R.id.button3,R.id.button4};
     private String[] speekText = {"Account details","Voice assistant","transfer funds", "my deposits"};
-    private java.lang.Class[] classArray = {MainActivity.class,MainActivity.class,MainActivity.class,MainActivity.class};
+    private java.lang.Class[] classArray = {MainActivity.class,ChatBotActivity.class,MainActivity.class,MainActivity.class};
     int listViewLength = menuItemsArray.length;
     int selectedIndex;
     private boolean volume_up_pressed, volume_down_pressed;
@@ -76,17 +76,21 @@ public class Home extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        boolean response = false;
         if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
             volume_down_pressed = true;
+            response = true;
         } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
             volume_up_pressed = true;
+            response = true;
         }
 
         if (volume_down_pressed && volume_up_pressed) {
             Intent myIntent = new Intent(Home.this,classArray[selectedIndex]);
             Home.this.startActivity(myIntent);
         }
-        return false;
+        return response;
     }
 
 }

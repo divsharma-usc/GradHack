@@ -230,7 +230,7 @@ public class FirstSplashActivity extends AppCompatActivity {
                         new TimerTask(){
                             @Override
                             public void run(){
-                                Intent myIntent = new Intent(FirstSplashActivity.this,Home.class);
+                                Intent myIntent = new Intent(FirstSplashActivity.this,SliderActivity.class);
                                 FirstSplashActivity.this.startActivity(myIntent);
                             }}, 500);
             }
