@@ -2,37 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFDE03">
+    android:background="#6200EE">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:background="#FFDE03">
+        android:background="#6200EE">
 
         <ImageView
             android:layout_width="@dimen/img_width_height"
             android:layout_height="@dimen/img_width_height"
-            android:src="@drawable/splashicon1"/>
+            android:src="@drawable/splashicon2"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_title"
-            android:text="Hellow From the Outside"
+            android:text="Because We Care"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="4dp"
             android:paddingLeft="@dimen/desc_padding"
             android:paddingRight="@dimen/desc_padding"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:text="hello g"
+            android:text="Save and Make Money"
             android:textSize="@dimen/slide_desc" />
 
     </LinearLayout>

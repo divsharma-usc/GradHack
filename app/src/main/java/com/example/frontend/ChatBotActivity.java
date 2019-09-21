@@ -79,6 +79,11 @@ public class ChatBotActivity extends AppCompatActivity {
                     voiceView.performClick();
                 }
                 return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if(action == KeyEvent.ACTION_DOWN){
+                    this.finish();
+                    return true;
+                }
             default:
                 return super.dispatchKeyEvent(event);
         }

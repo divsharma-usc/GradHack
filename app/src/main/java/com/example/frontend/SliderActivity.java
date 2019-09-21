@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class SliderActivity extends AppCompatActivity {
@@ -26,7 +28,7 @@ public class SliderActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
     private ViewPageAdapter myViewPagerAdapter;
     private int[] layouts;
-    private String[] speaks = {"Screen 1", "Screen 2"};
+    private String[] speaks = {"Volume up provides navigation, press volume up for next", "Press volume up and down to select an option, press them to move ahead"};
     private Button btnSkip, btnNext;
     private TextView[] dots;
     private TextToSpeech tts;
@@ -106,6 +108,20 @@ public class SliderActivity extends AppCompatActivity {
                 }
             }
         });
+
+        new Timer().schedule(
+                new TimerTask(){
+                    @Override
+                    public void run(){
+                        tts.speak("You can press volume down to skip the tips",TextToSpeech.QUEUE_FLUSH,null,null);
+                    }}, 400);
+
+        new Timer().schedule(
+                new TimerTask(){
+                    @Override
+                    public void run(){
+                        tts.speak("Volume up provides navigation, press volume up for next tip",TextToSpeech.QUEUE_FLUSH,null,null);
+                    }}, 400);
     }
 
 
@@ -209,5 +225,13 @@ public class SliderActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    public void onPause(){
+        if(tts !=null){
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onPause();
     }
 }

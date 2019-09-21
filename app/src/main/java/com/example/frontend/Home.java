@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.Locale;
@@ -20,6 +23,10 @@ public class Home extends AppCompatActivity {
     TextToSpeech t1;
 
     private int[] menuItemsArray = {R.id.button1, R.id.button2,R.id.button3,R.id.button4};
+    private Button btn1;
+    private Button btn2;
+    private Button btn3;
+    private Button btn4;
     private String[] speekText = {"Account details","Voice assistant","transfer funds", "my deposits"};
     private java.lang.Class[] classArray = {MainActivity.class,ChatBotActivity.class,MainActivity.class,MainActivity.class};
     int listViewLength = menuItemsArray.length;
@@ -40,7 +47,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-
         new Timer().schedule(
                 new TimerTask(){
                     @Override
@@ -48,7 +54,37 @@ public class Home extends AppCompatActivity {
                         t1.speak("You are on home menu",TextToSpeech.QUEUE_FLUSH,null,null);
                     }}, 400);
 
+        btn1 = findViewById(R.id.button1);
+        btn2 = findViewById(R.id.button2);
+        btn3 = findViewById(R.id.button3);
+        btn4 = findViewById(R.id.button4);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Home.this,ChatBotActivity.class);
+                Home.this.startActivity(myIntent);
+            }
+        });
 
+        btn2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Home.this,ChatBotActivity.class);
+                Home.this.startActivity(myIntent);
+            }
+        });
+
+        btn3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Home.this,classArray[selectedIndex]);
+                Home.this.startActivity(myIntent);
+            }
+        });
+
+        btn4.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Home.this,classArray[selectedIndex]);
+                Home.this.startActivity(myIntent);
+            }
+        });
     }
 
     @Override
@@ -93,4 +129,21 @@ public class Home extends AppCompatActivity {
         return response;
     }
 
+    public void onPause(){
+        if(t1 !=null){
+            t1.stop();
+            //t1.shutdown();
+        }
+        super.onPause();
+    }
+
+    public void onResume(){
+        super.onResume();
+        new Timer().schedule(
+                new TimerTask(){
+                    @Override
+                    public void run(){
+                        t1.speak("You are on home menu",TextToSpeech.QUEUE_FLUSH,null,null);
+                    }}, 200);
+    }
 }

@@ -59,7 +59,7 @@
         android:background="#e6e4e4"
         android:textSize="18dp"
         android:drawableTop="@drawable/homeicon3"
-        android:drawablePadding="6dp"/>
+        android:drawablePadding="6dp" />
     <Button
         android:id="@+id/button4"
         android:layout_gravity="fill"
