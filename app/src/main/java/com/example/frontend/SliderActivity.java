@@ -71,6 +71,14 @@ public class SliderActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 addBottomDots(position);
+                if(position == 0){
+                    btnNext.setTextColor(Color.parseColor("#c7000f"));
+                    btnSkip.setTextColor(Color.parseColor("#c7000f"));
+                }
+                else{
+                     btnNext.setTextColor(Color.parseColor("#ffffff"));
+                     btnSkip.setTextColor(Color.parseColor("#ffffff"));
+                }
                 if (position == layouts.length - 1) {
                     btnNext.setText(getString(R.string.start));
                     btnSkip.setVisibility(View.GONE);
@@ -98,7 +106,14 @@ public class SliderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // checking for last page if true launch MainActivity
                 int current = getItem(+1);
-
+                if(current == 0){
+                    //btnNext.setTextColor(Color.parseColor("#c7000f"));
+                    //btnSkip.setTextColor(Color.parseColor("#c7000f"));
+                }
+                else{
+                    //btnNext.setTextColor(Color.parseColor("#fff"));
+                    //btnSkip.setTextColor(Color.parseColor("#fff"));
+                }
                 if (current < layouts.length) {
                     // move to next screen
                     viewPager.setCurrentItem(current);
