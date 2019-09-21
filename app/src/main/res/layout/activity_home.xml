@@ -25,10 +25,13 @@
         android:minHeight="70dp"
         android:minWidth="70dp"
         android:text="Account\nDetails"
+        android:textColor="#ffffff"
         android:padding="10dp"
         android:layout_margin="5dp"
         android:textSize="18dp"
-        android:background="#e6e4e4"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:background="#c7000f"
         android:drawableTop="@drawable/homeicon1"
         android:drawablePadding="6dp">
     </Button>
@@ -42,8 +45,11 @@
         android:text="Voice\nAssistant"
         android:padding="10dp"
         android:layout_margin="5dp"
-        android:background="#e6e4e4"
+        android:background="#c7000f"
+        android:textColor="#fff"
         android:textSize="18dp"
+        android:textAllCaps="false"
+        android:textStyle="bold"
         android:drawableTop="@drawable/homeicon2"
         android:drawablePadding="6dp">
     </Button>
@@ -56,8 +62,11 @@
         android:text="Transfer \n funds"
         android:padding="10dp"
         android:layout_margin="5dp"
-        android:background="#e6e4e4"
+        android:background="#c7000f"
         android:textSize="18dp"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
         android:drawableTop="@drawable/homeicon3"
         android:drawablePadding="6dp" />
     <Button
@@ -69,7 +78,10 @@
         android:padding="10dp"
         android:layout_margin="5dp"
         android:textSize="18dp"
-        android:background="#e6e4e4"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:background="#c7000f"
+        android:textStyle="bold"
         android:drawableTop="@drawable/homeicon4"
         android:drawablePadding="6dp"/>
 

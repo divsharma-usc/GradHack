@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
@@ -29,6 +30,8 @@ public class Home extends AppCompatActivity {
     private Button btn4;
     private String[] speekText = {"Account details","Voice assistant","transfer funds", "my deposits"};
     private java.lang.Class[] classArray = {MainActivity.class,ChatBotActivity.class,MainActivity.class,MainActivity.class};
+    private int[] buttonArrayMain = {R.drawable.homeicon1,R.drawable.homeicon2,R.drawable.homeicon3,R.drawable.homeicon4};
+    private int[] buttonArraySelected = {R.drawable.homeicona,R.drawable.homeiconb,R.drawable.homeiconc,R.drawable.homeicond};
     int listViewLength = menuItemsArray.length;
     int selectedIndex;
     private boolean volume_up_pressed, volume_down_pressed;
@@ -89,22 +92,40 @@ public class Home extends AppCompatActivity {
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        for(int index = 0 ; index < menuItemsArray.length;index++){
+            Button myButton = (Button)findViewById(menuItemsArray[index]);
+            myButton.setBackgroundColor(Color.parseColor("#c7000f"));
+            myButton.setTextColor(Color.parseColor("#ffffff"));
+            Drawable top = getResources().getDrawable(buttonArrayMain[index],null);
+            myButton.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+        }
+
         if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
             volume_down_pressed = false;
-            if (selectedIndex != -1)
-                findViewById(menuItemsArray[selectedIndex]).setBackgroundColor(Color.parseColor("#e6e4e4"));
+            if (selectedIndex != -1) {
+                Button myButton = findViewById(menuItemsArray[selectedIndex]);
+                myButton.setBackgroundColor(Color.parseColor("#ffffff"));
+                myButton.setTextColor(Color.parseColor("#c7000f"));
+                Drawable top = getResources().getDrawable(buttonArraySelected[selectedIndex],null);
+                myButton.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+            }
             selectedIndex = (selectedIndex + 1) % listViewLength;
             t1.speak(speekText[selectedIndex],TextToSpeech.QUEUE_FLUSH, null,null);
-            findViewById(menuItemsArray[selectedIndex]).setBackgroundColor(Color.parseColor("#d8d8d8"));
             return true;
         } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
+
             volume_up_pressed = false;
-            if (selectedIndex != -1)
-                findViewById(menuItemsArray[selectedIndex]).setBackgroundColor(Color.parseColor("#e6e4e4"));
+            if (selectedIndex != -1) {
+                Button myButton = findViewById(menuItemsArray[selectedIndex]);
+                myButton.setBackgroundColor(Color.parseColor("#ffffff"));
+                myButton.setTextColor(Color.parseColor("#c7000f"));
+                Drawable top = getResources().getDrawable(buttonArraySelected[selectedIndex],null);
+                myButton.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+            }
             selectedIndex = (selectedIndex - 1) % listViewLength;
             if (selectedIndex < 0) selectedIndex += listViewLength;
             t1.speak(speekText[selectedIndex],TextToSpeech.QUEUE_FLUSH, null,null);
-            findViewById(menuItemsArray[selectedIndex]).setBackgroundColor(Color.parseColor("#d8d8d8"));
             return true;
         }
         return false;
