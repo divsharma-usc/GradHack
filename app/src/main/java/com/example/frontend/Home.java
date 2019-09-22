@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,15 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.AWSStartupHandler;
+import com.amazonaws.mobile.client.AWSStartupResult;
+import com.amazonaws.mobileconnectors.lex.interactionkit.Response;
+import com.amazonaws.mobileconnectors.lex.interactionkit.config.InteractionConfig;
+import com.amazonaws.mobileconnectors.lex.interactionkit.ui.InteractiveVoiceView;
+
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -88,6 +97,15 @@ public class Home extends AppCompatActivity {
                 Home.this.startActivity(myIntent);
             }
         });
+
+        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+            @Override
+            public void onComplete(AWSStartupResult awsStartupResult) {
+                Log.d("MainActivity", "AWSMobileClient is instantiated and you are connected to AWS!");
+            }
+        }).execute();
+
+        init();
     }
 
     @Override
@@ -109,9 +127,9 @@ public class Home extends AppCompatActivity {
                 myButton.setTextColor(Color.parseColor("#c7000f"));
                 Drawable top = getResources().getDrawable(buttonArraySelected[selectedIndex],null);
                 myButton.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                t1.speak(speekText[selectedIndex],TextToSpeech.QUEUE_FLUSH, null,null);
             }
             selectedIndex = (selectedIndex + 1) % listViewLength;
-            t1.speak(speekText[selectedIndex],TextToSpeech.QUEUE_FLUSH, null,null);
             return true;
         } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
 
@@ -122,10 +140,10 @@ public class Home extends AppCompatActivity {
                 myButton.setTextColor(Color.parseColor("#c7000f"));
                 Drawable top = getResources().getDrawable(buttonArraySelected[selectedIndex],null);
                 myButton.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                t1.speak(speekText[selectedIndex],TextToSpeech.QUEUE_FLUSH, null,null);
             }
             selectedIndex = (selectedIndex - 1) % listViewLength;
             if (selectedIndex < 0) selectedIndex += listViewLength;
-            t1.speak(speekText[selectedIndex],TextToSpeech.QUEUE_FLUSH, null,null);
             return true;
         }
         return false;
@@ -167,4 +185,40 @@ public class Home extends AppCompatActivity {
                         t1.speak("You are on home menu",TextToSpeech.QUEUE_FLUSH,null,null);
                     }}, 200);
     }
+
+    public void init(){
+        InteractiveVoiceView voiceView = findViewById(R.id.voiceInterface);
+
+        voiceView.setInteractiveVoiceListener(new InteractiveVoiceView.InteractiveVoiceListener() {
+            @Override
+            public void dialogReadyForFulfillment(Map<String, String> slots, String intent) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) {
+
+            }
+
+            @Override
+            public void onError(String responseText, Exception e) {
+
+            }
+        });
+
+
+        voiceView.getViewAdapter().setCredentialProvider(AWSMobileClient.getInstance().getCredentialsProvider());
+
+        //replace parameters with your botname, bot-alias
+        voiceView.getViewAdapter()
+                .setInteractionConfig(
+                        new InteractionConfig("GradHack","newAlias"));
+
+        voiceView.getViewAdapter()
+                .setAwsRegion(getApplicationContext()
+                        .getString(R.string.aws_region));
+
+        voiceView.setCurrentRadius(20);
+    }
+
 }
